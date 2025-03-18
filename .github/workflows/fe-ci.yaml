@@ -1,0 +1,61 @@
+name: Ambulance uFE CI
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'frontend/**'
+  pull_request:
+    branches: ['main']
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          cache: bun
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/bun.lockb') }}
+
+      - name: Install Dependencies
+        working-directory: frontend
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        working-directory: frontend
+        run: bun run build --if-present
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          cache: bun
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/bun.lockb') }}
+
+      - name: Install Dependencies
+        working-directory: frontend
+        run: bun install --frozen-lockfile
+
+      - name: Run Tests
+        working-directory: frontend
+        run: bun run test
