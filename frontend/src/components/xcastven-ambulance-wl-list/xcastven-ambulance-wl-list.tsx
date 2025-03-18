@@ -19,7 +19,7 @@ export class XcastvenAmbulanceWlList {
   private async getWaitingPatientsAsync(): Promise<Patient[]> {
     return [
       {
-        name: 'Jožko Púčik',
+        name: 'Jožo Púčik',
         patientId: '10001',
         estimatedStart: new Date(Date.now() + 65 * 60),
         estimatedDurationMinutes: 15,
