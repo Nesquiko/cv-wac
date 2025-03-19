@@ -1,12 +1,5 @@
-import { Component, Event, EventEmitter, Host, h } from '@stencil/core';
-
-interface Patient {
-  name: string;
-  patientId: string;
-  estimatedStart: Date;
-  estimatedDurationMinutes: number;
-  condition: string;
-}
+import { Component, Event, EventEmitter, Host, Prop, State, h } from '@stencil/core';
+import { AmbulanceWaitingListApi, Configuration, WaitingListEntry } from '../../api/ambulance-wl';
 
 @Component({
   tag: 'xcastven-ambulance-wl-list',
@@ -15,32 +8,29 @@ interface Patient {
 })
 export class XcastvenAmbulanceWlList {
   @Event({ eventName: 'entry-clicked' }) entryClicked: EventEmitter<string>;
-  waitingPatients: Patient[];
+  @Prop() apiBase: string;
+  @Prop() ambulanceId: string;
+  @State() errorMessage: string;
 
-  private async getWaitingPatientsAsync(): Promise<Patient[]> {
-    return [
-      {
-        name: 'Jožko Púčik',
-        patientId: '10001',
-        estimatedStart: new Date(Date.now() + 65 * 60),
-        estimatedDurationMinutes: 15,
-        condition: 'Kontrola',
-      },
-      {
-        name: 'Bc. August Cézar',
-        patientId: '10096',
-        estimatedStart: new Date(Date.now() + 30 * 60),
-        estimatedDurationMinutes: 20,
-        condition: 'Teploty',
-      },
-      {
-        name: 'Ing. Ferdinand Trety',
-        patientId: '10028',
-        estimatedStart: new Date(Date.now() + 5 * 60),
-        estimatedDurationMinutes: 15,
-        condition: 'Bolesti hrdla',
-      },
-    ];
+  waitingPatients: WaitingListEntry[];
+
+  private async getWaitingPatientsAsync(): Promise<WaitingListEntry[]> {
+    try {
+      const configuration = new Configuration({
+        basePath: this.apiBase,
+      });
+
+      const waitingListApi = new AmbulanceWaitingListApi(configuration);
+      const response = await waitingListApi.getWaitingListEntriesRaw({ ambulanceId: this.ambulanceId });
+      if (response.raw.status < 299) {
+        return await response.value();
+      } else {
+        this.errorMessage = `Cannot retrieve list of waiting patients: ${response.raw.statusText}`;
+      }
+    } catch (err) {
+      this.errorMessage = `Cannot retrieve list of waiting patients: ${err.message || 'unknown'}`;
+    }
+    return [];
   }
 
   async componentWillLoad() {
@@ -50,15 +40,19 @@ export class XcastvenAmbulanceWlList {
   render() {
     return (
       <Host>
-        <md-list>
-          {this.waitingPatients.map((patient, i) => (
-            <md-list-item onClick={() => this.entryClicked.emit(i.toString())}>
-              <div slot="headline">{patient.name}</div>
-              <div slot="supporting-text">{'Predpokladaný vstup: ' + patient.estimatedStart?.toLocaleString()}</div>
-              <md-icon slot="start">person</md-icon>
-            </md-list-item>
-          ))}
-        </md-list>
+        {this.errorMessage ? (
+          <div class="error">{this.errorMessage}</div>
+        ) : (
+          <md-list>
+            {this.waitingPatients.map((patient, i) => (
+              <md-list-item onClick={() => this.entryClicked.emit(i.toString())}>
+                <div slot="headline">{patient.name}</div>
+                <div slot="supporting-text">{'Predpokladaný vstup: ' + patient.estimatedStart?.toLocaleString()}</div>
+                <md-icon slot="start">person</md-icon>
+              </md-list-item>
+            ))}
+          </md-list>
+        )}
       </Host>
     );
   }

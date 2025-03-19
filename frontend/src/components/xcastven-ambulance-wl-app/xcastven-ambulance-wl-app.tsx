@@ -9,6 +9,8 @@ export class XcastvenAmbulanceWlApp {
   @State() private relativePath = '';
 
   @Prop() basePath: string = '';
+  @Prop() apiBase: string;
+  @Prop() ambulanceId: string;
 
   componentWillLoad() {
     const baseUri = new URL(this.basePath, document.baseURI || '/').pathname;
@@ -51,7 +53,11 @@ export class XcastvenAmbulanceWlApp {
         {element === 'editor' ? (
           <xcastven-ambulance-wl-editor entryId={entryId} onEditor-closed={() => navigate('./list')}></xcastven-ambulance-wl-editor>
         ) : (
-          <xcastven-ambulance-wl-list onentry-clicked={(ev: CustomEvent<string>) => navigate('./entry/' + ev.detail)}></xcastven-ambulance-wl-list>
+          <xcastven-ambulance-wl-list
+            ambulance-id={this.ambulanceId}
+            api-base={this.apiBase}
+            onentry-clicked={(ev: CustomEvent<string>) => navigate('./entry/' + ev.detail)}
+          ></xcastven-ambulance-wl-list>
         )}
       </Host>
     );

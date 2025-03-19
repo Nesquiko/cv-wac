@@ -4,7 +4,10 @@ metadata:
   name: xcastven-ambulance-ufe-content
 spec:
   microFrontend: xcastven-ambulance-ufe
-  element: xcastven-ambulance-wl-list
+  element: xcastven-ambulance-wl-app
+  attributes:
+    - name: base-path
+      value: /xcastven-ambulance-wl/
   displayRules:
     - allOf:
         - context-name: main-content
