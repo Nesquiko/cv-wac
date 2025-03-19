@@ -1,0 +1,11 @@
+apiVersion: polyfea.github.io/v1alpha1
+kind: WebComponent
+metadata:
+  name: xcastven-ambulance-ufe-content
+spec:
+  microFrontend: xcastven-ambulance-ufe
+  element: xcastven-ambulance-wl-list
+  displayRules:
+    - allOf:
+        - context-name: main-content
+        - path: "^(\\.?/)?xcastven-ambulance-wl(/.*)?$"
