@@ -6,24 +6,84 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface XcastvenAmbulanceWlApp {
+        "basePath": string;
+    }
+    interface XcastvenAmbulanceWlEditor {
+        "entryId": string;
+    }
     interface XcastvenAmbulanceWlList {
     }
 }
+export interface XcastvenAmbulanceWlEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXcastvenAmbulanceWlEditorElement;
+}
+export interface XcastvenAmbulanceWlListCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXcastvenAmbulanceWlListElement;
+}
 declare global {
+    interface HTMLXcastvenAmbulanceWlAppElement extends Components.XcastvenAmbulanceWlApp, HTMLStencilElement {
+    }
+    var HTMLXcastvenAmbulanceWlAppElement: {
+        prototype: HTMLXcastvenAmbulanceWlAppElement;
+        new (): HTMLXcastvenAmbulanceWlAppElement;
+    };
+    interface HTMLXcastvenAmbulanceWlEditorElementEventMap {
+        "editor-closed": string;
+    }
+    interface HTMLXcastvenAmbulanceWlEditorElement extends Components.XcastvenAmbulanceWlEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXcastvenAmbulanceWlEditorElementEventMap>(type: K, listener: (this: HTMLXcastvenAmbulanceWlEditorElement, ev: XcastvenAmbulanceWlEditorCustomEvent<HTMLXcastvenAmbulanceWlEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXcastvenAmbulanceWlEditorElementEventMap>(type: K, listener: (this: HTMLXcastvenAmbulanceWlEditorElement, ev: XcastvenAmbulanceWlEditorCustomEvent<HTMLXcastvenAmbulanceWlEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLXcastvenAmbulanceWlEditorElement: {
+        prototype: HTMLXcastvenAmbulanceWlEditorElement;
+        new (): HTMLXcastvenAmbulanceWlEditorElement;
+    };
+    interface HTMLXcastvenAmbulanceWlListElementEventMap {
+        "entry-clicked": string;
+    }
     interface HTMLXcastvenAmbulanceWlListElement extends Components.XcastvenAmbulanceWlList, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXcastvenAmbulanceWlListElementEventMap>(type: K, listener: (this: HTMLXcastvenAmbulanceWlListElement, ev: XcastvenAmbulanceWlListCustomEvent<HTMLXcastvenAmbulanceWlListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXcastvenAmbulanceWlListElementEventMap>(type: K, listener: (this: HTMLXcastvenAmbulanceWlListElement, ev: XcastvenAmbulanceWlListCustomEvent<HTMLXcastvenAmbulanceWlListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXcastvenAmbulanceWlListElement: {
         prototype: HTMLXcastvenAmbulanceWlListElement;
         new (): HTMLXcastvenAmbulanceWlListElement;
     };
     interface HTMLElementTagNameMap {
+        "xcastven-ambulance-wl-app": HTMLXcastvenAmbulanceWlAppElement;
+        "xcastven-ambulance-wl-editor": HTMLXcastvenAmbulanceWlEditorElement;
         "xcastven-ambulance-wl-list": HTMLXcastvenAmbulanceWlListElement;
     }
 }
 declare namespace LocalJSX {
+    interface XcastvenAmbulanceWlApp {
+        "basePath"?: string;
+    }
+    interface XcastvenAmbulanceWlEditor {
+        "entryId"?: string;
+        "onEditor-closed"?: (event: XcastvenAmbulanceWlEditorCustomEvent<string>) => void;
+    }
     interface XcastvenAmbulanceWlList {
+        "onEntry-clicked"?: (event: XcastvenAmbulanceWlListCustomEvent<string>) => void;
     }
     interface IntrinsicElements {
+        "xcastven-ambulance-wl-app": XcastvenAmbulanceWlApp;
+        "xcastven-ambulance-wl-editor": XcastvenAmbulanceWlEditor;
         "xcastven-ambulance-wl-list": XcastvenAmbulanceWlList;
     }
 }
@@ -31,6 +91,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "xcastven-ambulance-wl-app": LocalJSX.XcastvenAmbulanceWlApp & JSXBase.HTMLAttributes<HTMLXcastvenAmbulanceWlAppElement>;
+            "xcastven-ambulance-wl-editor": LocalJSX.XcastvenAmbulanceWlEditor & JSXBase.HTMLAttributes<HTMLXcastvenAmbulanceWlEditorElement>;
             "xcastven-ambulance-wl-list": LocalJSX.XcastvenAmbulanceWlList & JSXBase.HTMLAttributes<HTMLXcastvenAmbulanceWlListElement>;
         }
     }
