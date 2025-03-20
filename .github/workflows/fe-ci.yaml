@@ -5,6 +5,8 @@ on:
     branches: ['main']
     paths:
       - 'frontend/**'
+    tags:
+      - 'v1*'
   pull_request:
     branches: ['main']
     paths:
