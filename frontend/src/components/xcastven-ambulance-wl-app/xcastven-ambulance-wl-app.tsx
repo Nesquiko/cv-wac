@@ -51,7 +51,12 @@ export class XcastvenAmbulanceWlApp {
     return (
       <Host>
         {element === 'editor' ? (
-          <xcastven-ambulance-wl-editor entryId={entryId} onEditor-closed={() => navigate('./list')}></xcastven-ambulance-wl-editor>
+          <xcastven-ambulance-wl-editor
+            ambulance-id={this.ambulanceId}
+            api-base={this.apiBase}
+            entryId={entryId}
+            onEditor-closed={() => navigate('./list')}
+          ></xcastven-ambulance-wl-editor>
         ) : (
           <xcastven-ambulance-wl-list
             ambulance-id={this.ambulanceId}
