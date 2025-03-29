@@ -21,7 +21,7 @@ start: mongo-up ## Start the service and MongoDB (stops MongoDB on exit)
 .PHONY: openapi
 openapi: ## Generate OpenAPI specification via Docker
 	@echo "==> Generating OpenAPI specification"
-	docker run --rm -v $(PROJECT_ROOT):/local $(DOCKER_IMAGE) generate -c /local/scripts/generator-cfg.yaml
+	docker run --rm -v $(PROJECT_ROOT):/local $(DOCKER_IMAGE) generate -c /local/generator-cfg.yaml
 
 .PHONY: mongo-up
 mongo-up: ## Start MongoDB via Docker Compose in detached mode
